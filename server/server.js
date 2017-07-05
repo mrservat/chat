@@ -18,9 +18,10 @@ io.on('connection', (socket) => {
   socket.emit('newMessage',generateMessage('admin', 'Welcome!!!'));
   socket.broadcast.emit('newMessage', generateMessage('admin', 'New user joined'));
 
-  socket.on('createMessage', (msg) => {
+  socket.on('createMessage', (msg, callback) => {
     console.log('createMessage', msg);
     io.emit('newMessage', generateMessage(msg.from, msg.text));
+    callback('this is from the server');
   })
 
   socket.on('disconnect', () => {
@@ -28,11 +29,6 @@ io.on('connection', (socket) => {
   });
 
 });
-
-// socket.on('createEmail', (newEmail) => {
-//   console.log('createEmail', newEmail);
-// });
-
 
 server.listen(port, () => {
   console.log(`Server is up on ${port}`);
